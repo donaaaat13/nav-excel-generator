@@ -12,6 +12,34 @@ files = [
 ]
 
 [[package]]
+name = "customtkinter"
+version = "5.2.1"
+description = "Create modern looking GUIs with Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "customtkinter-5.2.1-py3-none-any.whl", hash = "sha256:8a284d035ccd5537730bc83816bf6c456538ae81594749a946c86470cab6e87b"},
+    {file = "customtkinter-5.2.1.tar.gz", hash = "sha256:eddc1c416063e1ce1aa2793959b0814e95e22d3de3f2a940bd84828f7301f555"},
+]
+
+[package.dependencies]
+darkdetect = "*"
+
+[[package]]
+name = "darkdetect"
+version = "0.8.0"
+description = "Detect OS Dark Mode from Python"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "darkdetect-0.8.0-py3-none-any.whl", hash = "sha256:a7509ccf517eaad92b31c214f593dbcf138ea8a43b2935406bbd565e15527a85"},
+    {file = "darkdetect-0.8.0.tar.gz", hash = "sha256:b5428e1170263eb5dea44c25dc3895edd75e6f52300986353cd63533fe7df8b1"},
+]
+
+[package.extras]
+macos-listener = ["pyobjc-framework-Cocoa"]
+
+[[package]]
 name = "et-xmlfile"
 version = "1.1.0"
 description = "An implementation of lxml.xmlfile for the standard library"
@@ -325,4 +353,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.13"
-content-hash = "53de0a66029891539bcc38ad8969eeff033666f41da6cf0e9940ef071feda8b2"
+content-hash = "ac9ce4bf468ee754482210e82632943733b5700b86f207b4b095eac82ad678d6"

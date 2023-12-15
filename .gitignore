@@ -1,3 +1,8 @@
 sample_files
 excels
 logs
+dist
+*.xlsx
+build
+main.spec
+__pycache__

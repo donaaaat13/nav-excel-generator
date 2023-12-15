@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "nav-excel-generator"
+name = "nav_excel_generator"
 version = "0.1.0"
 description = ""
 authors = ["Donat Kovats <donat685@gmail.com>"]
@@ -7,14 +7,17 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
-
-
-[tool.poetry.group.development.dependencies]
-pandas = "^2.1.4"
-pyinstaller = "^6.3.0"
+customtkinter = "^5.2.1"
 pypdf2 = "^3.0.1"
 openpyxl = "^3.1.2"
+pandas = "^2.1.4"
+
+[tool.poetry.group.development.dependencies]
+pyinstaller = "^6.3.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+build = "nav_excel_generator.pyinstaller:install"

@@ -1,11 +1,14 @@
 # importing required modules
 import os
 import PyPDF2
+import logging
 import pandas as pd
 from datetime import datetime
 
+
 class PDFDataExtractor:
-    def __init__(self, file_path):
+    def __init__(self, file_path, logger):
+        self.logger = logger
         self.file_path = file_path
         self.lines = self.extract_lines()
 
@@ -18,24 +21,36 @@ class PDFDataExtractor:
             return text.split('\n')
 
     def __extract_vevo(self):
-        for idx, line in enumerate(self.lines):
-            if "VEVŐ:" in line:
-                return self.lines[idx + 1]
+        try:
+            for idx, line in enumerate(self.lines):
+                if "VEVŐ:" in line:
+                    return self.lines[idx + 1]
+        except:
+            self.logger.error(f"A {self.file_path} dokumentumban nem található kulcsszó a vevőhöz.")
 
     def __extract_kiallitas_datuma(self):
-        for line in self.lines:
-            if "Kiállítás dátuma: " in line:
-                return line.replace("Kiállítás dátuma: ", "")
+        try:
+            for line in self.lines:
+                if "Kiállítás dátuma: " in line:
+                    return line.replace("Kiállítás dátuma: ", "")
+        except:
+            self.logger.error("A {self.file_path} dokumentumban nem található kulcsszó a kiállítás dátumához.")
 
     def __extract_sorszam(self):
-        for line in self.lines:
-            if "Sorszám: " in line:
-                return line.replace("Sorszám: ", "")
+        try:
+            for line in self.lines:
+                if "Sorszám: " in line:
+                    return line.replace("Sorszám: ", "")
+        except:
+            self.logger.error("A {self.file_path} dokumentumban nem található kulcsszó a sorszámhoz.")
 
     def __extract_osszeg(self):
-        for idx, line in enumerate(self.lines):
-            if line == "Összesen:":
-                return self.lines[idx + 1]
+        try:
+            for idx, line in enumerate(self.lines):
+                if line == "Összesen:":
+                    return self.lines[idx + 1]
+        except:
+            self.logger.error("A {self.file_path} dokumentumban nem található kulcsszó az összeghez.")
             
     def get_data(self):
         data = {
@@ -47,20 +62,27 @@ class PDFDataExtractor:
         return data
 
 if __name__ == "__main__":
+    logging.basicConfig(filename="../logs/log_file.log",
+                        filemode='a',
+                        format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                        datefmt='%H:%M:%S',
+                        level=logging.DEBUG)
+
+    logger = logging.getLogger()
+
     directory = "../sample_files"
     files = os.listdir(directory)
 
     invoice_data = []
     # Create an instance of the PDFDataExtractor class
     for file in files:
-        pdf_extractor = PDFDataExtractor(f"{directory}/{file}")
+        pdf_extractor = PDFDataExtractor(f"{directory}/{file}", logger)
 
         # Use the methods to extract information
         invoice_data.append(pdf_extractor.get_data())
     
     invoice_data_df = pd.DataFrame(invoice_data)
     print(invoice_data_df)
-
     # Get the current date and time
     current_datetime = datetime.now()
     # Format the date and time as a string (YYYY-MM-DD_HH-MM-SS)
